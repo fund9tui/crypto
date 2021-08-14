@@ -1,0 +1,6 @@
+flask
+gunicorn
+python-binance
+requests
+matplotlib
+numpy
