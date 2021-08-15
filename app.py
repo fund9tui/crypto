@@ -2,7 +2,7 @@
 #https://code.visualstudio.com/docs/python/tutorial-flask 
 
 # before run
-# c:/Users/9Tui_Lenovo700/CryptoAlert/env/Scripts/Activate.ps1
+# & c:/Users/9Tui_Lenovo700/CryptoAlert/env/Scripts/Activate.ps1
 # $env:FLASK_ENV = "development"
 #> $env:FLASK_APP = "app.py"
 #> flask run
@@ -140,6 +140,7 @@ def webhook():
 #        }
 
     msg = "===" + data['ticker'] + "==="
+    msg += '\n' + 'comment :'+ data['strategy']['order_comment']
     msg += '\n' + 'side :'+ side
     msg += '\n'+ 'quantity:' +str(quantity) 
     msg += '\n' + 'price:' + '{:.5f}'.format(data['strategy']['order_price']) 
