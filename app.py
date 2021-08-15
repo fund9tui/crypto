@@ -143,7 +143,7 @@ def webhook():
     msg += "\n" + "====" + data['ticker'] + "===="
     msg += "\n" + "interval : " + data['interval'] + ""
  #   msg += '\n' + 'recommend :'+ data['strategy']['order_comment']
-    msg += '\n' + 'could : '+ side
+    msg += '\n' + 'action : '+ side
     msg += '\n' + 'quantity: ' +str(quantity) 
     msg += '\n' + 'price: ' + '{:.5f}'.format(data['strategy']['order_price']) 
  #   print(msg)
