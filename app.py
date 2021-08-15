@@ -94,6 +94,20 @@ def sendlineimage(message_text , message_pict , ltoken ):
      
     return 1 
 
+def Currency_convert( from_currency, to_currency, amount): 
+    url = 'https://api.exchangerate-api.com/v4/latest/USD'    
+    data= requests.get(url).json()
+    currencies = data['rates']
+
+    #first convert it into USD if it is not in USD.
+    # because our base currency is USD
+    if from_currency != 'USD' : 
+        amount = amount / currencies[from_currency] 
+  
+    # limiting the precision to 4 decimal places 
+    amount = round(amount * currencies[to_currency], 4) 
+    return amount
+
 
 
 #client = Client(config.API_KEY, config.API_SECRET, tld='us')
@@ -123,8 +137,14 @@ def webhook():
             "message": "Nice try, invalid passphrase"
         }
 
+    usd_thb = round(Currency_convert('USD','THB',1) ,2) 
+
     side = data['strategy']['order_action'].upper()
     quantity = data['strategy']['order_contracts']
+    price = data['strategy']['order_price'] 
+    price_thb = price * usd_thb 
+
+
 #    order_response = order(side, quantity, "DOGEUSD")
 
 #    if order_response:
@@ -143,9 +163,13 @@ def webhook():
     msg += "\n" + "====" + data['ticker'] + "===="
     msg += "\n" + "interval : " + data['interval'] + ""
  #   msg += '\n' + 'recommend :'+ data['strategy']['order_comment']
-    msg += '\n' + 'action : '+ side
-    msg += '\n' + 'quantity: ' +str(quantity) 
-    msg += '\n' + 'price: ' + '{:.5f}'.format(data['strategy']['order_price']) 
+    if side == 'BUY' :
+        msg += '\n' + 'action : '+ side + ' ' + u'\u2191' # up arrow
+    else : 
+        msg += '\n' + 'action : '+ side + ' ' + u'\u2193' # down arrow 
+ #   msg += '\n' + 'quantity: ' +str(quantity) 
+    msg += '\n' + 'price $: ' + '{:.5f}'.format(price) 
+    msg += '\n' + 'price ฿: ' + '{:.2f}'.format(price_thb)    
  #   print(msg)
     result = sendline(msg , config.LINE_ACCESS_TOKEN ) 
  #   print(result)
