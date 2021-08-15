@@ -139,14 +139,16 @@ def webhook():
 #            "message": "order failed"
 #        }
 
-    msg = "===" + data['ticker'] + "==="
-    msg += '\n' + 'comment :'+ data['strategy']['order_comment']
-    msg += '\n' + 'side :'+ side
-    msg += '\n'+ 'quantity:' +str(quantity) 
-    msg += '\n' + 'price:' + '{:.5f}'.format(data['strategy']['order_price']) 
-
-
+    msg = "\n[" + data['name'] + "]"
+    msg += "\n" + "====" + data['ticker'] + "===="
+    msg += "\n" + "interval : " + data['interval'] + ""
+ #   msg += '\n' + 'recommend :'+ data['strategy']['order_comment']
+    msg += '\n' + 'could : '+ side
+    msg += '\n' + 'quantity: ' +str(quantity) 
+    msg += '\n' + 'price: ' + '{:.5f}'.format(data['strategy']['order_price']) 
+ #   print(msg)
     result = sendline(msg , config.LINE_ACCESS_TOKEN ) 
+ #   print(result)
     return {
         "code" : "success",
         "message" : msg  
