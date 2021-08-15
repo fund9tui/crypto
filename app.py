@@ -136,6 +136,11 @@ def webhook():
             "code": "error",
             "message": "Nice try, invalid passphrase"
         }
+    print(data)
+    if 'line_token' in data :
+        line_token = data['line_token'] 
+    else :
+        line_token = config.LINE_ACCESS_TOKEN 
 
     usd_thb = round(Currency_convert('USD','THB',1) ,2) 
 
@@ -171,7 +176,7 @@ def webhook():
     msg += '\n' + 'price $: ' + '{:.5f}'.format(price) 
     msg += '\n' + 'price ฿: ' + '{:.2f}'.format(price_thb)    
  #   print(msg)
-    result = sendline(msg , config.LINE_ACCESS_TOKEN ) 
+    result = sendline(msg , line_token ) 
  #   print(result)
     return {
         "code" : "success",
